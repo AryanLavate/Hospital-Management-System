@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,12 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-uuo1p(8ipo-4-eyny6erzd1i94di^g5f@gwe$a2^jfh20h0ztb'
+SECRET_KEY = os.getenv('SECRET_KEY', 'replace-with-a-long-random-secret')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = []
+_allowed_hosts = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost')
+ALLOWED_HOSTS = [host.strip() for host in _allowed_hosts.split(',') if host.strip()]
 
 
 # Application definition
@@ -74,9 +77,6 @@ WSGI_APPLICATION = 'hospital_system.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
-import os
-import sys
 
 # Load database config from db_config.py (single file to edit per device)
 try:

@@ -1,77 +1,76 @@
 # Hospital Management System
 
-A Django-based hospital management project with MySQL support.
+A web-based hospital management application built with Django and MySQL to manage patients, doctors, appointments, and administrative workflows.
 
-## Requirements
+## Features
 
-- Python 3.10+
+- Role-based hospital workflow support
+- Patient and doctor management
+- Appointment scheduling and tracking
+- Dashboard and reporting views
+- Static/media file handling for Django apps
+
+## Tech Stack
+
+- Python
+- Django
+- MySQL
+- HTML/CSS/JavaScript
+
+## Project Structure
+
+- `hospital_system/` - Django project configuration
+- `core/` - main app logic, models, views, templates integration
+- `templates/` - shared HTML templates
+- `static/` - static assets (CSS, JS, images)
+- `manage.py` - Django management entry point
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.10 or newer
 - MySQL Server
-- Pip
+- `pip`
 
-## 1) Install dependencies
+### Installation
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## 2) Configure database credentials (local only)
+### Configuration
 
-1. Copy `db_config.example.py` to `db_config.py`
-2. Update values in `db_config.py`:
-   - `DB_HOST`
-   - `DB_USER`
-   - `DB_PASS`
-   - `DB_PORT`
-   - `DB_NAME`
+Use template files for local configuration:
 
-Do not commit `db_config.py` or any `.env` files. They are ignored by `.gitignore`.
-You can use `.env.example` as a template for local environment variables.
+- `db_config.example.py` -> `db_config.py`
+- `.env.example` -> `.env`
 
-## 3) Initialize database
+Set appropriate database and Django environment values before running.
+
+### Database Setup
 
 ```bash
 python setup_db.py
 python init_database.py
 ```
 
-## 4) Run the application
+### Run the Application
 
 ```bash
 python manage.py runserver
 ```
 
-Or run the helper script on Windows:
+Windows helper:
 
 ```bat
 run_app.bat
 ```
 
-## GitHub push (safe steps)
+## Security
 
-```bash
-git init
-git add .
-git status
-git commit -m "Initial commit: hospital management system"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<your-repo>.git
-git push -u origin main
-```
+Sensitive files such as `.env` and `db_config.py` are excluded from version control via `.gitignore`. Only example/template config files should be committed.
 
-If a secret file is accidentally staged, unstage it:
+## License
 
-```bash
-git restore --staged db_config.py
-git restore --staged .env
-```
-
-If you accidentally add an unwanted folder, remove it from Git tracking:
-
-```bash
-git rm -r --cached travel_tourism_booking_system
-```
-
-## Notes
-
-- Keep secrets only in local files (`db_config.py`, `.env`).
-- Use `db_config.example.py` as the shared template for collaborators.
+This project is provided for educational and development use.
