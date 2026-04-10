@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Book Appointment - Smart Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0"><i class="fas fa-calendar-plus me-2 text-primary"></i> Book Appointment</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Schedule Appointment</button>
+                        <a href="{% url 'appointment_list' %}" class="btn btn-link text-muted">Back to Schedule</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="alert alert-warning mt-3 small border-0 shadow-sm">
+            <i class="fas fa-exclamation-triangle me-2"></i> The system will automatically prevent double bookings for
+            the same doctor at the same time.
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Appointments - Smart Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-calendar-alt me-2"></i> Appointment Schedule</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{% url 'appointment_book' %}" class="btn btn-primary d-flex align-items-center gap-2 shadow-sm">
+            <i class="fas fa-plus"></i> Book New Appointment
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0 mt-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Patient</th>
+                        <th>Doctor</th>
+                        <th>Date & Time</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointments %}
+                    <tr>
+                        <td class="ps-4">
+                            <strong>{{ appointment.patient.name }}</strong><br>
+                            <small class="text-muted">{{ appointment.patient.phone }}</small>
+                        </td>
+                        <td>Dr. {{ appointment.doctor.user.username }}</td>
+                        <td>
+                            <i class="far fa-calendar me-1 text-primary"></i> {{ appointment.date }}<br>
+                            <i class="far fa-clock me-1 text-primary"></i> {{ appointment.time }}
+                        </td>
+                        <td>
+                            <span
+                                class="badge bg-{% if appointment.status == 'Scheduled' %}info{% elif appointment.status == 'Completed' %}success{% else %}danger{% endif %}">
+                                {{ appointment.status }}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group btn-group-sm">
+                                <a href="{% url 'appointment_update' appointment.pk %}" class="btn btn-outline-primary"
+                                    title="Update Status">
+                                    <i class="fas fa-sync-alt"></i>
+                                </a>
+                                {% if appointment.status != 'Cancelled' %}
+                                <a href="{% url 'prescription_add' appointment.id %}" class="btn btn-outline-success"
+                                    title="Add Prescription">
+                                    <i class="fas fa-prescription"></i>
+                                </a>
+                                <a href="{% url 'bill_generate' appointment.id %}"
+                                    class="btn btn-sm btn-{% if appointment.bill %}outline-warning{% else %}warning{% endif %}"
+                                    title="{% if appointment.bill %}View Invoice{% else %}Generate Bill{% endif %}">
+                                    <i class="fas fa-{% if appointment.bill %}eye{% else %}file-invoice{% endif %}"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5 text-muted">
+                            <i class="fas fa-calendar-times fa-3x mb-3 d-block opacity-25"></i>
+                            No appointments found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

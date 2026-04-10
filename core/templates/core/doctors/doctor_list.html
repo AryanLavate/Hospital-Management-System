@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Doctors - Smart Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-user-md me-2"></i> Doctor Management</h1>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
+    {% for doctor in doctors %}
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-user-md fa-3x text-success opacity-50"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5 class="card-title mb-0">Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}
+                        </h5>
+                        <small class="text-primary font-weight-bold">{{ doctor.specialization }}</small>
+                    </div>
+                </div>
+                <div class="small text-muted mb-2">
+                    <i class="fas fa-phone me-2"></i>{{ doctor.phone }}<br>
+                    <i class="fas fa-envelope me-2"></i>{{ doctor.email }}
+                </div>
+                <p class="card-text small bg-light p-2 rounded">
+                    <strong>Schedule:</strong><br>{{ doctor.schedule }}
+                </p>
+            </div>
+            <div class="card-footer bg-white border-0 d-grid">
+                <div class="d-grid gap-2">
+                    {% if not is_doctor or user.is_superuser %}
+                    <a href="{% url 'appointment_book' %}?doctor={{ doctor.id }}"
+                        class="btn btn-outline-success btn-sm">Book Appointment</a>
+                    {% endif %}
+                    {% if user.is_superuser %}
+                    <a href="{% url 'doctor_delete' doctor.pk %}" class="btn btn-outline-danger btn-sm">
+                        Delete Doctor
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5 text-muted">
+        <i class="fas fa-user-md fa-3x mb-3 d-block opacity-25"></i>
+        No doctors registered in the system.
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

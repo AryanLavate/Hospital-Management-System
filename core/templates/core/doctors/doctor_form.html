@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Add Doctor - Smart Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0"><i class="fas fa-user-md me-2 text-success"></i> Register New Doctor</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-success">Save Doctor Profile</button>
+                        <a href="{% url 'doctor_list' %}" class="btn btn-link text-muted">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="alert alert-info mt-3 small border-0 shadow-sm">
+            <i class="fas fa-info-circle me-2"></i> Ensure the user account exists before assigning it to a doctor
+            profile.
+        </div>
+    </div>
+</div>
+{% endblock %}

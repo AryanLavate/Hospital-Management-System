@@ -1,0 +1,184 @@
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Smart Hospital Management System{% endblock %}</title>
+    {% bootstrap_css %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --sidebar-width: 250px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        #sidebar {
+            width: var(--sidebar-width);
+            min-height: 100vh;
+            background: #212529;
+            color: #fff;
+            transition: all 0.3s;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        #sidebar .sidebar-header {
+            padding: 20px;
+            background: #1a1e21;
+        }
+
+        #sidebar ul.components {
+            padding: 20px 0;
+        }
+
+        #sidebar ul li a {
+            padding: 10px 20px;
+            display: block;
+            color: #adb5bd;
+            text-decoration: none;
+        }
+
+        #sidebar ul li a:hover,
+        #sidebar ul li.active>a {
+            color: #fff;
+            background: #343a40;
+        }
+
+        #sidebar ul li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        #content {
+            width: calc(100% - var(--sidebar-width));
+            margin-left: var(--sidebar-width);
+            transition: all 0.3s;
+        }
+
+        .navbar {
+            padding: 15px 10px;
+            background: #fff;
+            border: none;
+            border-radius: 0;
+            margin-bottom: 20px;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background-color: #fff;
+            border-bottom: 1px solid #f1f1f1;
+            padding: 15px 20px;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            border-radius: 5px;
+            padding: 8px 16px;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <div class="wrapper d-flex">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>
+                    <a href="{% if user.is_authenticated %}{% url 'dashboard' %}{% else %}{% url 'landing' %}{% endif %}"
+                        class="text-decoration-none text-white">
+                        <i class="fas fa-hospital-alt"></i> Healing Haven
+                    </a>
+                </h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                {% if user.is_authenticated %}
+                <li class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                    <a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
+                <li class="{% if 'patient' in request.resolver_match.url_name %}active{% endif %}">
+                    <a href="{% url 'patient_list' %}"><i class="fas fa-user-injured"></i> Patients</a>
+                </li>
+                <li class="{% if 'doctor' in request.resolver_match.url_name %}active{% endif %}">
+                    <a href="{% url 'doctor_list' %}"><i class="fas fa-user-md"></i> Doctors</a>
+                </li>
+                <li class="{% if 'appointment' in request.resolver_match.url_name %}active{% endif %}">
+                    <a href="{% url 'appointment_list' %}"><i class="fas fa-calendar-check"></i> Appointments</a>
+                </li>
+                {% if user.is_superuser %}
+                <li class="{% if 'user_' in request.resolver_match.url_name %}active{% endif %}">
+                    <a href="{% url 'user_list' %}"><i class="fas fa-users-cog"></i> Manage Users</a>
+                </li>
+                {% endif %}
+                <hr class="mx-3 my-2" style="border-top: 1px solid #444;">
+                <li>
+                    <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                        {% csrf_token %}
+                    </form>
+                    <a href="javascript:void(0)" onclick="document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+                    {% if user.is_authenticated %}
+                    <span class="navbar-text">
+                        Welcome,
+                        <strong>
+                            {{ user.get_full_name|default:user.username }}
+                        </strong>
+                    </span>
+                    {% endif %}
+                    <div class="ms-auto">
+                        <span class="text-muted small"><i class="far fa-clock"></i> {{ now }}</span>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    {% bootstrap_javascript %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

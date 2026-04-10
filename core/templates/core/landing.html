@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome - Smart Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mt-5">
+    <div class="col-lg-6 mb-4">
+        <h1 class="display-5 fw-bold mb-3">
+            <i class="fas fa-hospital-symbol text-primary me-2"></i>
+            Healing Haven
+        </h1>
+        <p class="lead text-muted mb-4">
+            A smart, streamlined hospital management system for administrators, doctors, and receptionists.
+            Manage patients, appointments, prescriptions, and billing from a single unified dashboard.
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-sign-in-alt me-2"></i> Login to Dashboard
+            </a>
+        </div>
+        <p class="text-muted small mt-3">
+            Use your Admin, Doctor, or Receptionist account to access the system.
+        </p>
+    </div>
+    <div class="col-lg-6">
+        <div class="row g-3">
+            <div class="col-sm-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-user-injured text-primary me-2"></i>Patient Management</h5>
+                        <p class="card-text small text-muted mb-0">
+                            Register patients, view medical history, and track visits effortlessly.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-user-md text-success me-2"></i>Doctor Scheduling</h5>
+                        <p class="card-text small text-muted mb-0">
+                            Coordinate doctor schedules and avoid double bookings.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-calendar-check text-info me-2"></i>Appointments</h5>
+                        <p class="card-text small text-muted mb-0">
+                            Book, track, and update appointments in real time.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-file-invoice-dollar text-warning me-2"></i>Billing</h5>
+                        <p class="card-text small text-muted mb-0">
+                            Generate bills automatically with consultation and medicine charges.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

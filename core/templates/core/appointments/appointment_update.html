@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Update Status - Smart Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0"><i class="fas fa-sync-alt me-2 text-primary"></i> Update Appointment Status</h5>
+            </div>
+            <div class="card-body text-center">
+                <p class="small text-muted mb-4">
+                    Current status for <strong>{{ appointment.patient.name }}</strong>'s appointment with
+                    <strong>Dr. {{ appointment.doctor.user.username }}</strong>.
+                </p>
+                <form method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary">Update Status</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
